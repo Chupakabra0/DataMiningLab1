@@ -150,7 +150,27 @@
     <ClCompile Include="source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\MainHeader.h" />
+    <ClInclude Include="include\MainHeader.hpp" />
+    <ClInclude Include="include\tabulate\asciidoc_exporter.hpp" />
+    <ClInclude Include="include\tabulate\cell.hpp" />
+    <ClInclude Include="include\tabulate\color.hpp" />
+    <ClInclude Include="include\tabulate\column.hpp" />
+    <ClInclude Include="include\tabulate\column_format.hpp" />
+    <ClInclude Include="include\tabulate\exporter.hpp" />
+    <ClInclude Include="include\tabulate\font_align.hpp" />
+    <ClInclude Include="include\tabulate\font_style.hpp" />
+    <ClInclude Include="include\tabulate\format.hpp" />
+    <ClInclude Include="include\tabulate\latex_exporter.hpp" />
+    <ClInclude Include="include\tabulate\markdown_exporter.hpp" />
+    <ClInclude Include="include\tabulate\optional_lite.hpp" />
+    <ClInclude Include="include\tabulate\printer.hpp" />
+    <ClInclude Include="include\tabulate\row.hpp" />
+    <ClInclude Include="include\tabulate\table.hpp" />
+    <ClInclude Include="include\tabulate\table_internal.hpp" />
+    <ClInclude Include="include\tabulate\tabulate.hpp" />
+    <ClInclude Include="include\tabulate\termcolor.hpp" />
+    <ClInclude Include="include\tabulate\utf8.hpp" />
+    <ClInclude Include="include\tabulate\variant_lite.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
