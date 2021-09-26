@@ -150,6 +150,7 @@
     <ClCompile Include="source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\DispersionTable.hpp" />
     <ClInclude Include="include\MainHeader.hpp" />
     <ClInclude Include="include\tabulate\asciidoc_exporter.hpp" />
     <ClInclude Include="include\tabulate\cell.hpp" />
