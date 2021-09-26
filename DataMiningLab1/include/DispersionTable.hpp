@@ -43,8 +43,14 @@ public:
 
 	[[nodiscard]] std::pair<std::vector<T>, std::vector<T>> GetAllInfo() const {
 		std::pair result{ this->values_, this->squaredValues_ };
-		result.first.push_back(this->sumValues_);
-		result.second.push_back(this->sumSquaredValues_);
+		//result.first.push_back(this->sumValues_);
+		//result.second.push_back(this->sumSquaredValues_);
+
+		return result;
+	}
+
+	[[nodiscard]] std::pair<T, T> GetAllSum() const {
+		std::pair result{ this->sumValues_, this->sumSquaredValues_ };
 
 		return result;
 	}
