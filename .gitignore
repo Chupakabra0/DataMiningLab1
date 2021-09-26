@@ -81,3 +81,12 @@ fabric.properties
 
 # Visual Studio
 .vs/*
+
+# Nuget
+packages/*
+*.tlog
+*.ilk
+*.log
+*.idb
+*.pdb
+*.recipe
