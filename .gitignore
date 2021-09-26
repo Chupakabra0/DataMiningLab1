@@ -90,3 +90,4 @@ packages/*
 *.idb
 *.pdb
 *.recipe
+Debug/DataMiningLab1.exp
