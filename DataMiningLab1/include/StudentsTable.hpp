@@ -4,16 +4,24 @@
 #include <unordered_map>
 
 class StudentsTable {
+private:
+	static constexpr auto ALPHA_SIZE = 8u;
+	static constexpr auto K_SIZE     = 35u;
+	static constexpr auto TOTAL_SIZE = StudentsTable::ALPHA_SIZE * StudentsTable::K_SIZE;
 public:
+	~StudentsTable() = default;
+
 	static StudentsTable& GetInstance() {
 		static StudentsTable instance;
 		return instance;
 	}
 
+	[[nodiscard]] double GetElement(const double sigma, const unsigned k) const {
+		return this->map_.at(k).at(sigma);
+	}
 
 private:
-	// TODO: static consts to sizes
-	std::array<double, 8u * 35u> totalTable_ {
+	std::array<double, StudentsTable::TOTAL_SIZE> totalTable_ {
 		3.078, 6.314, 12.71, 31.82, 63.66, 127.3, 318.3, 636.6,   // k = 1
 	    1.886, 2.920, 4.303, 6.965, 9.925, 14.09, 22.33, 31.60,   // k = 2
 	    1.638, 2.353, 3.182, 4.541, 5.841, 7.453, 10.21, 12.92,   // k = 3
@@ -52,9 +60,9 @@ private:
 	//  0.200  0.100  0.050  0.025  0.012  0.005  0.002  0.001
 	};
 
-	std::array<unsigned, 35u> kTable_{};
+	std::array<unsigned, StudentsTable::K_SIZE> kTable_{};
 
-	std::array<double, 8u> alphaTable_{};
+	std::array<double, StudentsTable::ALPHA_SIZE> alphaTable_{};
 
 	std::unordered_map<unsigned, std::unordered_map<double, double>> map_{};
 
@@ -89,8 +97,7 @@ private:
 		auto totalIter = this->totalTable_.begin();
 
 		std::ranges::for_each(std::as_const(this->kTable_), [&totalIter, this](auto k) {
-			std::for_each(this->alphaTable_.cbegin(), this->alphaTable_.cend(),
-				[&totalIter, k, this](auto alpha) {
+			std::ranges::for_each(std::as_const(this->alphaTable_),[&totalIter, k, this](auto alpha) {
 					this->map_[k][alpha] = *totalIter++;
 				}
 			);
