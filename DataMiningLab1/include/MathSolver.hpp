@@ -11,25 +11,25 @@ public:
 		
 	}
 
-	auto ExpectedValue() const -> T {
+	[[nodiscard]] auto ExpectedValue() const -> T {
 		return this->sumValue_ / this->count_;
 	}
 
-	auto BiasedVarianceEstimate() const -> T {
+	[[nodiscard]] auto BiasedVarianceEstimate() const -> T {
 		return this->sumSquaredValue_ / this->count_ -
 			std::pow(this->sumValue_, T{ 2.0 }) / std::pow(this->count_, T{ 2.0 });
 	}
 
-	auto UnbiasedVarianceEstimate() const -> T {
+	[[nodiscard]] auto UnbiasedVarianceEstimate() const -> T {
 		return this->sumSquaredValue_ / (this->count_ - 1u) -
 			std::pow(this->sumValue_, T{ 2.0 }) / (this->count_ - 1u) / this->count_;
 	}
 
-	auto BiasedStandardDeviationEstimate() const -> T {
+	[[nodiscard]] auto BiasedStandardDeviationEstimate() const -> T {
 		return std::sqrt(this->BiasedVarianceEstimate());
 	}
 
-	auto UnbiasedStandardDeviationEstimate() const -> T {
+	[[nodiscard]] auto UnbiasedStandardDeviationEstimate() const -> T {
 		return std::sqrt(this->UnbiasedVarianceEstimate());
 	}
 
