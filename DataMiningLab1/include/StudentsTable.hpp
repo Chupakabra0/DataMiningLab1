@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 #include <numeric>
-#include <unordered_map>
+#include <map>
 
 class StudentsTable {
 private:
@@ -17,7 +17,19 @@ public:
 	}
 
 	[[nodiscard]] double GetElement(const double sigma, const unsigned k) const {
-		return this->map_.at(k).at(sigma);
+		auto result = 0.0;
+
+		if (k < this->kTable_.front() || k > this->kTable_.back()) {
+			return result;
+		}
+		if (sigma > this->alphaTable_.front() || sigma < this->alphaTable_.back()) {
+			return result;
+		}
+
+		const auto lowerBound = this->map_.lower_bound(k)->second.lower_bound(sigma);
+		const auto prev = std::prev(lowerBound);
+
+		return std::abs(sigma - prev->first) < std::abs(lowerBound->first - sigma) ? prev->second : lowerBound->second;
 	}
 
 private:
@@ -64,7 +76,7 @@ private:
 
 	std::array<double, StudentsTable::ALPHA_SIZE> alphaTable_{};
 
-	std::unordered_map<unsigned, std::unordered_map<double, double>> map_{};
+	std::map<unsigned, std::map<double, double>> map_{};
 
 	StudentsTable() {
 		this->FillKTable();
