@@ -6,19 +6,22 @@
 #include "NormalTable.hpp"
 #include "StudentsTable.hpp"
 
-template<class T, class... U> requires
-	std::is_arithmetic_v<T> && (!std::is_same_v<T, bool>) && (!std::is_same_v<T, char>)
-	&& (std::is_arithmetic_v<U> && ...) && (!std::is_same_v<U, bool> && ...) && (!std::is_same_v<U, char> && ...)
 class MathSolver {
 public:
-	explicit MathSolver(T value) {
-		this->AddToAllValues(value);
-		this->UpdateAllSums();
-	}
+	//explicit MathSolver(T value) {
+	//	this->AddToAllValues(value);
+	//	this->UpdateAllSums();
+	//}
 
-	explicit MathSolver(T firstValue, U... restValues) {
-		this->AddToAllValues(firstValue);
-		(this->AddToAllValues(static_cast<T>(restValues)), ...);
+	//explicit MathSolver(T firstValue, U... restValues) {
+	//	this->AddToAllValues(firstValue);
+	//	(this->AddToAllValues(static_cast<T>(restValues)), ...);
+	//	this->UpdateAllSums();
+	//}
+
+	template<class Iter>
+	explicit MathSolver(Iter begin, Iter end) {
+		this->AddRange(begin, end);
 		this->UpdateAllSums();
 	}
 
@@ -30,50 +33,51 @@ public:
 		this->sumSquaredValue_ = {};
 	}
 
-	void SetNewValues(T value) {
+	void SetNewValues(double value) {
 		this->Clear();
 
 		this->AddToAllValues(value);
 		this->UpdateAllSums();
 	}
 
-	void SetNewValues(T firstValue, U... restValues) {
+	template<class... T> requires (std::is_same_v<T, double> && ...)
+	void SetNewValues(double firstValue, T... restValues) {
 		this->Clear();
 
 		this->AddToAllValues(firstValue);
-		(this->AddToAllValues(static_cast<T>(restValues)), ...);
+		(this->AddToAllValues(static_cast<double>(restValues)), ...);
 		this->UpdateAllSums();
 	}
 
-	[[nodiscard]] std::pair<std::vector<T>, std::vector<T>> GetAllInfo() const {
+	[[nodiscard]] std::pair<std::vector<double>, std::vector<double>> GetAllInfo() const {
 		std::pair result{ this->values_, this->squaredValues_ };
 		return result;
 	}
 
-	[[nodiscard]] std::pair<T, T> GetAllSum() const {
-		std::pair result{ this->sumValue_, this->squaredValues_ };
+	[[nodiscard]] std::pair<double, double> GetAllSum() const {
+		std::pair result{ this->sumValue_, this->sumSquaredValue_ };
 		return result;
 	}
 
-	[[nodiscard]] auto ExpectedValue() const -> T {
+	[[nodiscard]] auto ExpectedValue() const -> double {
 		return this->sumValue_ / this->values_.size();
 	}
 
-	[[nodiscard]] auto BiasedVarianceEstimate() const -> T {
+	[[nodiscard]] auto BiasedVarianceEstimate() const -> double {
 		return this->sumSquaredValue_ / this->values_.size() -
-			std::pow(this->sumValue_, T{ 2.0 }) / std::pow(this->values_.size(), T{ 2.0 });
+			std::pow(this->sumValue_, 2.0) / std::pow(this->values_.size(), 2.0);
 	}
 
-	[[nodiscard]] auto UnbiasedVarianceEstimate() const -> T {
+	[[nodiscard]] auto UnbiasedVarianceEstimate() const -> double {
 		return this->sumSquaredValue_ / (this->values_.size() - 1u) -
-			std::pow(this->sumValue_, T{ 2.0 }) / (this->values_.size() - 1u) / this->values_.size();
+			std::pow(this->sumValue_, 2.0) / (this->values_.size() - 1u) / this->values_.size();
 	}
 
-	[[nodiscard]] auto BiasedStandardDeviationEstimate() const -> T {
+	[[nodiscard]] auto BiasedStandardDeviationEstimate() const -> double {
 		return std::sqrt(this->BiasedVarianceEstimate());
 	}
 
-	[[nodiscard]] auto UnbiasedStandardDeviationEstimate() const -> T {
+	[[nodiscard]] auto UnbiasedStandardDeviationEstimate() const -> double {
 		return std::sqrt(this->UnbiasedVarianceEstimate());
 	}
 
@@ -104,15 +108,15 @@ public:
 	}
 
 private:
-	T sumValue_;
-	T sumSquaredValue_;
+	double sumValue_{};
+	double sumSquaredValue_{};
 
-	std::vector<T> values_;
-	std::vector<T> squaredValues_;
+	std::vector<double> values_{};
+	std::vector<double> squaredValues_{};
 
-	void AddToAllValues(T value) {
+	void AddToAllValues(const double value) {
 		this->values_.push_back(value);
-		this->squaredValues_.push_back(std::pow(value, T{ 2.0 }));
+		this->squaredValues_.push_back(std::pow(value, 2.0));
 	}
 
 	void UpdateAllSums() {
@@ -123,5 +127,12 @@ private:
 	template<class T>
 	auto CalculateSum(const std::vector<T>& v) -> T {
 		return std::reduce(v.cbegin(), v.cend(), T{}, std::plus());
+	}
+
+	template<class Iter>
+	void AddRange(Iter begin, Iter end) {
+		for (; begin != end; ++begin) {
+			this->AddToAllValues(*begin);
+		}
 	}
 };
