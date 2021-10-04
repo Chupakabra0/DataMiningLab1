@@ -34,7 +34,7 @@ int main(const int argc, char* argv[]) {
 	SetLocale(1251u);
 
 	if (argc < 2) {
-		fmt::print("Добавьте файл с входными данными...\nПример: {} fileName.json",
+		fmt::print("Добавьте файл с входными данными...\nПример: {} fileName.json\n",
 			std::filesystem::path(*argv).filename().string());
 		return EXIT_SUCCESS;
 	}
