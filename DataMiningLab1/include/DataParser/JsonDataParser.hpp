@@ -13,7 +13,11 @@ public:
 	static constexpr auto* FREEDOM_STR = "freedomLevel";
 
 public:
-	explicit JsonDataParser(const std::filesystem::path& filePath) : file_(filePath, std::ios::in) {
+	//explicit JsonDataParser(const std::filesystem::path& filePath) : file_(filePath, std::ios::in) {
+	//	this->ReadFile();
+	//}
+
+	explicit JsonDataParser(std::fstream& file) : file_(file) {
 		this->ReadFile();
 	}
 
@@ -40,11 +44,11 @@ public:
 	}
 
 private:
-	std::fstream file_;
+	std::reference_wrapper<std::fstream> file_;
 	nlohmann::json json_{};
 
 	void ReadFile() {
-		if (this->file_.is_open()) {
+		if (this->file_.get().is_open()) {
 			this->file_ >> this->json_;
 		}
 		else {

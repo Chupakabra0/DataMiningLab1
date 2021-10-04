@@ -3,6 +3,7 @@
 #include <iostream>
 #include <format>
 #include <algorithm>
+#include <exception>
 
 // Platform unique
 #ifdef WIN32
