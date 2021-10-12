@@ -150,9 +150,50 @@
     <ClCompile Include="source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\MainHeader.h" />
+    <ClInclude Include="include\DataParser\IDataParser.hpp" />
+    <ClInclude Include="include\DataParser\JsonDataParser.hpp" />
+    <ClInclude Include="include\MainHeader.hpp" />
+    <ClInclude Include="include\MathSolver.hpp" />
+    <ClInclude Include="include\NormalTable.hpp" />
+    <ClInclude Include="include\StudentsTable.hpp" />
+    <ClInclude Include="include\tabulate\asciidoc_exporter.hpp" />
+    <ClInclude Include="include\tabulate\cell.hpp" />
+    <ClInclude Include="include\tabulate\color.hpp" />
+    <ClInclude Include="include\tabulate\column.hpp" />
+    <ClInclude Include="include\tabulate\column_format.hpp" />
+    <ClInclude Include="include\tabulate\exporter.hpp" />
+    <ClInclude Include="include\tabulate\font_align.hpp" />
+    <ClInclude Include="include\tabulate\font_style.hpp" />
+    <ClInclude Include="include\tabulate\format.hpp" />
+    <ClInclude Include="include\tabulate\latex_exporter.hpp" />
+    <ClInclude Include="include\tabulate\markdown_exporter.hpp" />
+    <ClInclude Include="include\tabulate\optional_lite.hpp" />
+    <ClInclude Include="include\tabulate\printer.hpp" />
+    <ClInclude Include="include\tabulate\row.hpp" />
+    <ClInclude Include="include\tabulate\table.hpp" />
+    <ClInclude Include="include\tabulate\table_internal.hpp" />
+    <ClInclude Include="include\tabulate\tabulate.hpp" />
+    <ClInclude Include="include\tabulate\termcolor.hpp" />
+    <ClInclude Include="include\tabulate\utf8.hpp" />
+    <ClInclude Include="include\tabulate\variant_lite.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets" Condition="Exists('..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets')" />
+    <Import Project="..\packages\armadillo-code.7.800.2\build\native\armadillo-code.targets" Condition="Exists('..\packages\armadillo-code.7.800.2\build\native\armadillo-code.targets')" />
+    <Import Project="..\packages\fmt.7.0.1\build\fmt.targets" Condition="Exists('..\packages\fmt.7.0.1\build\fmt.targets')" />
+    <Import Project="..\packages\nlohmann.json.3.10.2\build\native\nlohmann.json.targets" Condition="Exists('..\packages\nlohmann.json.3.10.2\build\native\nlohmann.json.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets'))" />
+    <Error Condition="!Exists('..\packages\armadillo-code.7.800.2\build\native\armadillo-code.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\armadillo-code.7.800.2\build\native\armadillo-code.targets'))" />
+    <Error Condition="!Exists('..\packages\fmt.7.0.1\build\fmt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\fmt.7.0.1\build\fmt.targets'))" />
+    <Error Condition="!Exists('..\packages\nlohmann.json.3.10.2\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nlohmann.json.3.10.2\build\native\nlohmann.json.targets'))" />
+  </Target>
 </Project>
